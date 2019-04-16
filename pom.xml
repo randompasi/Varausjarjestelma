@@ -28,7 +28,34 @@
     </properties>
 
 
+
+
     <dependencies>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
 
 
         <dependency>
@@ -45,15 +72,6 @@
             <groupId>org.springframework.boot</groupId>
 
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-
-        </dependency>
-
-
-        <dependency>
-
-            <groupId>org.springframework.ws</groupId>
-
-            <artifactId>spring-ws-security</artifactId>
 
         </dependency>
 
@@ -96,31 +114,9 @@
         </dependency>
 
 
-        <dependency>
-
-            <groupId>org.springframework.ldap</groupId>
-
-            <artifactId>spring-ldap-core</artifactId>
-
-        </dependency>
 
 
-        <dependency>
 
-            <groupId>org.springframework.security</groupId>
-
-            <artifactId>spring-security-ldap</artifactId>
-
-        </dependency>
-
-
-        <dependency>
-
-            <groupId>com.unboundid</groupId>
-
-            <artifactId>unboundid-ldapsdk</artifactId>
-
-        </dependency>
 
 
         <dependency>
