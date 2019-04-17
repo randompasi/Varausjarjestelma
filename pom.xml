@@ -31,7 +31,11 @@
     <dependencies>
 
 
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
 
         <dependency>
@@ -41,23 +45,6 @@
 
 
 
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
 
     <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,33 +65,6 @@
 
         <dependency>
 
-            <groupId>org.springframework.ws</groupId>
-
-            <artifactId>spring-ws-security</artifactId>
-
-        </dependency>
-
-
-        <dependency>
-
-            <groupId>net.java.dev.jna</groupId>
-
-            <artifactId>jna</artifactId>
-
-        </dependency>
-
-
-        <dependency>
-
-            <groupId>net.java.dev.jna</groupId>
-
-            <artifactId>jna-platform</artifactId>
-
-        </dependency>
-
-
-        <dependency>
-
             <groupId>org.webjars</groupId>
 
             <artifactId>bootstrap</artifactId>
@@ -113,6 +73,12 @@
 
         </dependency>
 
+        <!-- security -->
+
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+        </dependency>
 
         <dependency>
 
@@ -122,13 +88,12 @@
 
         </dependency>
 
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
 
-
-
-
-
-
-
+        <!-- testing -->
 
 
         <dependency>
@@ -163,7 +128,6 @@
 
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 
 
 

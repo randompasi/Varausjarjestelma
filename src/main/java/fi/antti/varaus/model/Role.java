@@ -1,4 +1,4 @@
-package fi.auth.model;
+package fi.antti.varaus.model;
  import javax.persistence.*;
 import java.util.Set;
 
