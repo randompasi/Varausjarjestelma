@@ -43,7 +43,7 @@ public class UserRegistrationController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         System.out.println("taalla");
-        return "redirect:/welcome";
+        return "redirect:/calender";
     }
 
 }
