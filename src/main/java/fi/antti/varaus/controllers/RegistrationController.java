@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @Controller
-public class UserRegistrationController {
+public class RegistrationController {
 
     @Autowired
     private UserService userService;
@@ -42,8 +42,7 @@ public class UserRegistrationController {
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-        System.out.println("taalla");
-        return "redirect:/calender";
+        return "redirect:/";
     }
 
 }

@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/registration",
                         "/css/**",
                         "/webjars/**",
-                        "calender").permitAll()
+                        "/js/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

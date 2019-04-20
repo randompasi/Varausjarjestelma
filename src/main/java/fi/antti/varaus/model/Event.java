@@ -7,15 +7,16 @@ import java.util.Date;
 @Table(name = "Event")
 public class Event {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
     @Column(name="start")
     private Date start;
 
     @Column(name="end")
     private Date end;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
 
     private String title;
     private String description;

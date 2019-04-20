@@ -18,7 +18,7 @@ public class User {
     private String username;
 
     @NotNull
-    @Size(min=8)
+    @Size(min=2)
     private String password;
 
     @Transient
