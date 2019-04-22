@@ -1,5 +1,8 @@
 package fi.antti.varaus.controllers;
 
+/**
+ * Kontrolli luokka kalenterin tapahtumien kutsujen hallintaan
+ */
 
 import fi.antti.varaus.model.Event;
 import fi.antti.varaus.repository.EventRepository;
@@ -14,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
-public class CalenderController {
+public class CalendarController {
 
     @Autowired
     private EventRepository eventRepository;
@@ -36,13 +39,13 @@ public class CalenderController {
         try {
             startDate = inputDateFormat.parse(start);
         } catch (ParseException e) {
-            throw new BadDateFormatException("bad start date: " + start);
+            e.printStackTrace();
         }
 
         try {
             endDate = inputDateFormat.parse(end);
         } catch (ParseException e) {
-            throw new BadDateFormatException("bad end date: " + end);
+            e.printStackTrace();
         }
         return eventRepository.findByDatesBetween(startDate, endDate);
     }

@@ -1,4 +1,10 @@
 package fi.antti.varaus.config;
+/**
+ * Tietoturvan hallinta ohjelmassa.
+ * Määrittää mihin sivustoihin on oikeus mennä ilman kirjautumista.
+ * määrittelee kirjautumisen tunnistautuminen JPA repositorin User modelia vasten
+ */
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

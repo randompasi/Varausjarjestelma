@@ -1,5 +1,9 @@
 package fi.antti.varaus.repository;
 
+/**
+ * interface jonka avulla spring luo ohjelman aikana tietokannan Evnteille elikka liikuntatunneille
+ * samalla maaritetaan kysymykset mita voi tehda tietokantaan
+ */
 
 import fi.antti.varaus.model.Event;
 import org.springframework.data.jpa.repository.*;

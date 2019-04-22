@@ -1,5 +1,9 @@
 package fi.antti.varaus.model;
 
+/**
+ * Taphtuma modelli kaikkille liikunta tunneille
+ */
+
 import javax.persistence.*;
 import java.util.Date;
 

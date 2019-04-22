@@ -1,5 +1,8 @@
 package fi.antti.varaus;
-
+/**
+ * Spring applicaation kaynnistys
+ * Kerrotaan Springille mista aloittaa ohjelma
+ */
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,8 @@
 package fi.antti.varaus.model;
+/**
+ * Modelli luomaan kayttajien rooli
+ */
+
  import javax.persistence.*;
 import java.util.Set;
 

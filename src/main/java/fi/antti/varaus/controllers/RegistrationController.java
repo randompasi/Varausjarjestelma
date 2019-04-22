@@ -1,5 +1,9 @@
 package fi.antti.varaus.controllers;
 
+/**
+ * Kontrolli luokka rekisteröinnin tapahtumien ja pyyntöjen kontrolli luokka.
+ */
+
 import fi.antti.varaus.model.User;
 import fi.antti.varaus.service.SecurityService;
 import fi.antti.varaus.service.UserService;
