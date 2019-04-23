@@ -175,8 +175,8 @@ var token = $("meta[name='_csrf']").attr("content");
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: 450,
-      width: 350,
+      height: 480,
+      width: 380,
       modal: true,
       buttons: {
        "Create": addEvent,
@@ -244,8 +244,6 @@ var token = $("meta[name='_csrf']").attr("content");
 			},
 			eventClick: function(event, element) {
 				editEvent(event, element);
-
-		       //$('#calendar').fullCalendar('updateEvent', event);
 		    },
 		    eventMouseover: function(event, jsEvent, view) {
 

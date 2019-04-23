@@ -1,7 +1,4 @@
 <!DOCTYPE HTML>
-<-- Front end kalenterin kasittelyyn kayttaen thymeleafia, html, css ja javascriptia. Javascrilla luodaaan
-ajax kutsuja tapahtumissa, jotka lahettavat ja hakevat tarvittavia tietoja ohjelmaan. javascripti ja css tiedostot
-ovat resource/static kansioiden alla--!>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -57,7 +54,7 @@ ovat resource/static kansioiden alla--!>
 
 <div id='calendar'></div>
 
-<div id="dialog-form" title="Create new Event">
+<div id="dialog-form" title="Create new Sport Event">
     <form id="event-form">
         <fieldset>
             <label>title</label>
@@ -66,13 +63,16 @@ ovat resource/static kansioiden alla--!>
             <label for="description">description:</label>
             <input type="text" name="description" id="description" value="" class="text ui-widget-content ui-corner-all "/>
 
-            <br></br>
+            <br/>
             <label for="startdateandtime">starts:</label>
             <input type="datetime-local" id="startdateandtime"/>
-            <br></br>
+            <br/>
             <label for="enddateandtime">ends:</label>
             <input type="datetime-local" id="enddateandtime"/>
             <input type="hidden" name="uid" id="uid"/>
+            <br/>
+            <label for="enrollLimit">enroll limit:</label>
+            <input type="number" id="enrollLimit"/>
 
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
         </fieldset>
