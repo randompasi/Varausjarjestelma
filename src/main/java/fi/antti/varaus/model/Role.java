@@ -6,7 +6,9 @@ package fi.antti.varaus.model;
  import javax.persistence.*;
 import java.util.Set;
 
-    @Entity
+ import static javax.persistence.CascadeType.ALL;
+
+@Entity
     @Table(name = "role")
     public class Role {
         @Id
@@ -15,7 +17,7 @@ import java.util.Set;
 
         private String name;
 
-        @ManyToMany(mappedBy = "roles")
+        @ManyToMany(mappedBy = "roles",  cascade = ALL)
         private Set<User> users;
 
         public Long getId() {

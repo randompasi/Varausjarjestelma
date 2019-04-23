@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -24,7 +26,7 @@ public class User {
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany
+    @ManyToMany(cascade = ALL)
     private Set<Role> roles;
 
     public Long getId() {

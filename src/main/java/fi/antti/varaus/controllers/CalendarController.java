@@ -5,7 +5,7 @@ package fi.antti.varaus.controllers;
  */
 
 import fi.antti.varaus.model.Event;
-import fi.antti.varaus.repository.EventRepository;
+import fi.antti.varaus.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CalendarController {
 
     @Autowired
-    private EventRepository eventRepository;
+    private EventService eventService;
 
         @GetMapping("/")
         public ModelAndView calendar() {
@@ -47,25 +47,25 @@ public class CalendarController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return eventRepository.findByDatesBetween(startDate, endDate);
+        return eventService.findByDatesBetween(startDate, endDate);
     }
 
 
     @PostMapping("/addEvent")
     public Event addEvent(@Valid @RequestBody Event event) {
-        return eventRepository.save(event);
+        return eventService.save(event);
     }
 
     @PatchMapping("/updateEvent")
     public Event updateEvent(@RequestBody Event event)
     {
-        return eventRepository.save(event);
+        return eventService.save(event);
     }
 
-    @DeleteMapping("removeEvent")
+    @DeleteMapping("/removeEvent")
     public void removeEvent(@RequestBody Event event) {
 
-            eventRepository.delete(event);
+            eventService.delete(event);
     }
 
 }

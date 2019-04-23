@@ -6,6 +6,8 @@ package fi.antti.varaus.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Event")
@@ -22,8 +24,35 @@ public class Event {
     private Date end;
 
 
+    private Long enrollLimit;
+
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "enrolled_users", joinColumns = @JoinColumn(name = "event_id"))
+    private Set<User> users = new HashSet<>();
+
+
+
     private String title;
     private String description;
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+
+    public Long getEnrollLimit() {
+        return enrollLimit;
+    }
+
+    public void setEnrollLimit(Long enrollLimit) {
+        this.enrollLimit = enrollLimit;
+    }
+
 
     public Long getId() {
         return id;
