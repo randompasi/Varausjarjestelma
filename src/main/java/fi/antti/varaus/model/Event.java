@@ -24,33 +24,32 @@ public class Event {
     private Date end;
 
 
-    private Long enrollLimit;
+    private int participantLimit;
 
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "enrolled_users", joinColumns = @JoinColumn(name = "event_id"))
-    private Set<User> users = new HashSet<>();
+    @ElementCollection
+    private Set<String> users = new HashSet<>();
 
 
 
     private String title;
     private String description;
 
-    public Set<User> getUsers() {
+    public Set<String> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<String> users) {
         this.users = users;
     }
 
 
-    public Long getEnrollLimit() {
-        return enrollLimit;
+    public int getParticipantLimit() {
+        return participantLimit;
     }
 
-    public void setEnrollLimit(Long enrollLimit) {
-        this.enrollLimit = enrollLimit;
+    public void setParticipantLimit(int participantLimit) {
+        this.participantLimit = participantLimit;
     }
 
 
@@ -97,7 +96,11 @@ public class Event {
     }
     @Override
     public String toString() {
-        return "Event [id=" + id + ", title=" + title + ", description="
-                + description + ", start=" + start + ", end=" + end + "]";
+        String casted =  "Event [id=" + id + ", title=" + title + ", description="
+                + description + ", start=" + start + ", end=" + end + ", limit=" + participantLimit  + "]";
+        for (String s : users) {
+            casted += ",users : "+ s  + " ";
+        }
+        return casted;
     }
 }

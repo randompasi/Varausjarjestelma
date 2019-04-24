@@ -28,10 +28,42 @@ $(function() {
     }
 
 
+    function enrollUser(){
+    var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+    var loginData = {}
+    $.ajax({
+             url: "/enroll",
+            type: "PATCH",
+            data: JSON.stringify(loginData),
+            contentType: "application/json; charset=utf-8",
+
+
+             dataType: "json",
+            timeout: 600000,
+
+             beforeSend: function(xhr) {
+                                    xhr.setRequestHeader(header, token);
+                                    },
+            success: function () {
+
+               $('#calendar').fullCalendar( 'refetchEvents' );
+
+
+            },
+            error: function (e) {
+
+
+
+            }
+        });
+    }
+
+
    	function removeEvent() {
 
-   		var eventStart = moment(modstartdateandtime.value);
- 			var eventEnd = moment(modenddateandtime.value);
+   		var eventStart = moment(modstartdateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
+ 			var eventEnd = moment(modenddateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
 var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
     	var eventData;
@@ -69,27 +101,36 @@ var token = $("meta[name='_csrf']").attr("content");
     function editEvent(event, elements) {
     	var eventStart = moment(event.start).format("YYYY-MM-DDTHH:mm:ss"); //moment(event.start);
  			var eventEnd = moment(event.end).format("YYYY-MM-DDTHH:mm:ss");
-
- 			alert (eventStart + "   " + eventEnd + "   " + event.end);
+ 			console.log(event.users)
+ 			var filtered = event.users.filter(function (el) {
+                            return el != null;
+                        });
+                        console.log(filtered)
+ 			var eventResevation = filtered.length +"/"+event.participantLimit;
+ 			//alert (eventStart + "   " + eventEnd + "   " + event.end);
        	modtitle.value = event.title;
 	    moddescription.value = event.description;
 	    modstartdateandtime.value = eventStart;
 	    modenddateandtime.value = eventEnd;
 	    moduid.value = event.id;
+	    modusers.value = filtered;
+	    modparticipantLimit.value = event.participantLimit;
+	     document.getElementById("reservation").innerHTML = eventResevation;
 	    editDialog.dialog( "open" );
     }
 
     function saveEvent() {
     	var valid = true;
- var token = $("meta[name='_csrf']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 	 	var eventStart = moment(modstartdateandtime.value);
  			var eventEnd = moment(modenddateandtime.value);
-
  			valid = valid && modtitle.value;
-	 	valid = valid && startdateandtime.value;
+	 	valid = valid && modstartdateandtime.value;
 	 	valid = valid && validateDateRange(eventStart, eventEnd);
-
+	 	eventStart = moment(modstartdateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
+	 	eventEnd = moment(modenddateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
+	 	console.log(modusers)
 		if ( valid ) {
 	    	var eventData;
 			if (modtitle.value) {
@@ -98,18 +139,18 @@ var token = $("meta[name='_csrf']").attr("content");
 					title: modtitle.value,
 					start: eventStart,
 					end:  eventEnd,
-					description: moddescription.value
+					description: moddescription.value,
+					participantLimit: modparticipantLimit.value,
+					users: modusers.value,
+
 				};
-		//		alert(eventData.title.value + " " + eventData.start.value + " " + eventData.end.value)
-		//		$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
 			}
 			$('#calendar').fullCalendar('unselect');
 
 	    	editDialog.dialog( "close" );
-
 	    	$.ajax({
 			    type: "PATCH",
-			    url: "/updateeEvent",
+			    url: "/updateEvent",
 			    data: JSON.stringify(eventData),
 			    contentType: "application/json; charset=utf-8",
 			    dataType: "json",
@@ -133,11 +174,11 @@ var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
  			var eventStart = moment(startdateandtime.value);
  			var eventEnd = moment(enddateandtime.value);
-
-		valid = valid && newtitle.value;
+		valid = valid && newtitle.value
 	 	valid = valid && startdateandtime.value;
-	 	valid = valid && validateDateRange(eventStart, eventEnd);
-
+	 	valid = valid && validateDateRange(eventStart, eventEnd)
+	 	eventStart = moment(startdateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
+         eventEnd = moment(enddateandtime.value).format("YYYY-MM-DDTHH:mm:ss");;
 		if ( valid ) {
 	    	var eventData;
 			if (newtitle.value) {
@@ -146,8 +187,9 @@ var token = $("meta[name='_csrf']").attr("content");
 					description: description.value,
 					start: eventStart,
 					end: eventEnd,
+					participantLimit: participantLimit.value,
 				};
-				//$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
 			}
 
 			$('#calendar').fullCalendar('unselect');
@@ -195,8 +237,9 @@ var token = $("meta[name='_csrf']").attr("content");
 	      width: 350,
 	      modal: true,
 	      buttons: {
-	        Save: saveEvent,
-	        Delete: removeEvent,
+	        "Save": saveEvent,
+	        "Delete": removeEvent,
+	        "Book" : enrollUser,
 	        Cancel: function() {
 	          editDialog.dialog( "close" );
 	        }

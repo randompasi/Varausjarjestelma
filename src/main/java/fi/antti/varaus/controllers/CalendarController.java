@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
@@ -58,14 +59,19 @@ public class CalendarController {
 
     @PatchMapping("/updateEvent")
     public Event updateEvent(@RequestBody Event event)
-    {
+    {System.out.println("taaalla");
         return eventService.save(event);
     }
 
     @DeleteMapping("/removeEvent")
     public void removeEvent(@RequestBody Event event) {
 
-            eventService.delete(event);
+          eventService.delete(event);
+    }
+
+    @RequestMapping("/enroll")
+    public void enroll(HttpServletRequest request){
+        System.out.println(request.getUserPrincipal().getName());
     }
 
 }

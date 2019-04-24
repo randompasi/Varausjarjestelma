@@ -1,12 +1,10 @@
 package fi.antti.varaus.repository;
 
     import static org.assertj.core.api.Assertions.assertThat;
-    import static org.mockito.Mockito.mock;
 
     import java.util.*;
 
     import fi.antti.varaus.model.Event;
-    import fi.antti.varaus.model.User;
     import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,23 +52,15 @@ import org.springframework.test.context.junit4.SpringRunner;
             Event event = new Event();
             event.setDescription("Delhi");
             event.setTitle("Koe");
-            event.setEnrollLimit(3L);
+            event.setParticipantLimit(3);
             event.setStart(new Date(1546293600000L));
             event.setEnd(new Date(1546380000000L));
-            Set<User> users = new HashSet<>();
-            users.add(getUser());
-            users.add(getUser());
+            Set<String> users = new HashSet<>();
+            users.add("asd");
+            users.add("qwe");
             event.setUsers(users);
             return event;
         }
 
 
-        private User getUser(){
-            User user = new User();
-            user.setPassword("asd");
-            user.setUsername("asd");
-            user.setPasswordConfirm("asd");
-            User savedUser = entityManager.persist(user);
-            return savedUser;
-        }
     }
