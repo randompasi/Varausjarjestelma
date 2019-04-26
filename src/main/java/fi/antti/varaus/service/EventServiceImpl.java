@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -35,11 +34,14 @@ public class EventServiceImpl implements EventService {
 
     }
 
-   /* public void enrollUser(User user, Long eventID){
-        Optional<Event> event = eventRepository.findById(eventID);
-        event.get().getUsers().add(user);
-          eventRepository.save(event.get());
-    }*/
+    public void enrollUser(String username, Event event){
+        Optional<Event> updated = eventRepository.findById(event.getId());
+        Set<String> booked = updated.get().getUsers();
+        booked.add(username);
+        updated.get().setUsers(booked);
+        System.out.println(updated.get().getUsers().size());
+          eventRepository.save(updated.get());
+    }
 
     public List<Event> findByDatesBetween(Date start, Date end){
         List<Event> a =eventRepository.findByDatesBetween(start, end);

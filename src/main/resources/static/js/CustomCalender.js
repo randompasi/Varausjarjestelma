@@ -29,16 +29,26 @@ $(function() {
 
 
     function enrollUser(){
+    var eventStart = moment(modstartdateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
+     			var eventEnd = moment(modenddateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
     var token = $("meta[name='_csrf']").attr("content");
                 var header = $("meta[name='_csrf_header']").attr("content");
-    var loginData = {}
+    eventData = {
+    					id: moduid.value,
+    					title: modtitle.value,
+    					start: eventStart,
+    					end:  eventEnd,
+    					description: moddescription.value,
+    					participantLimit: modparticipantLimit.value,
+    					users: modusers.value,
+
+    				};
+    				$('#calendar').fullCalendar('unselect');
     $.ajax({
              url: "/enroll",
             type: "PATCH",
-            data: JSON.stringify(loginData),
+            data: JSON.stringify(eventData),
             contentType: "application/json; charset=utf-8",
-
-
              dataType: "json",
             timeout: 600000,
 
@@ -53,10 +63,11 @@ $(function() {
             },
             error: function (e) {
 
-
+                alert(e);
 
             }
         });
+        return true;
     }
 
 
@@ -101,12 +112,9 @@ var token = $("meta[name='_csrf']").attr("content");
     function editEvent(event, elements) {
     	var eventStart = moment(event.start).format("YYYY-MM-DDTHH:mm:ss"); //moment(event.start);
  			var eventEnd = moment(event.end).format("YYYY-MM-DDTHH:mm:ss");
- 			console.log(event.users)
  			var filtered = event.users.filter(function (el) {
                             return el != null;
                         });
-                        console.log(filtered)
- 			var eventResevation = filtered.length +"/"+event.participantLimit;
  			//alert (eventStart + "   " + eventEnd + "   " + event.end);
        	modtitle.value = event.title;
 	    moddescription.value = event.description;
@@ -115,6 +123,8 @@ var token = $("meta[name='_csrf']").attr("content");
 	    moduid.value = event.id;
 	    modusers.value = filtered;
 	    modparticipantLimit.value = event.participantLimit;
+
+	    var eventResevation =  modusers.value.length +"/"+ modparticipantLimit.value;
 	     document.getElementById("reservation").innerHTML = eventResevation;
 	    editDialog.dialog( "open" );
     }
@@ -130,7 +140,6 @@ var token = $("meta[name='_csrf']").attr("content");
 	 	valid = valid && validateDateRange(eventStart, eventEnd);
 	 	eventStart = moment(modstartdateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
 	 	eventEnd = moment(modenddateandtime.value).format("YYYY-MM-DDTHH:mm:ss");
-	 	console.log(modusers)
 		if ( valid ) {
 	    	var eventData;
 			if (modtitle.value) {

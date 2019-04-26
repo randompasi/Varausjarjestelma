@@ -70,9 +70,11 @@ public class CalendarController {
     }
 
     @RequestMapping("/enroll")
-    public void enroll(HttpServletRequest request){
-        System.out.println(request.getUserPrincipal().getName());
-    }
+    public void enroll(@RequestBody Event event, HttpServletRequest request){
+       String username = request.getUserPrincipal().getName();
+      eventService.enrollUser(username, event);
+
+        }
 
 }
 

@@ -20,6 +20,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("select b from Event b " +
             "where b.start between ?1 and ?2 and b.end between ?1 and ?2")
     List<Event> findByDatesBetween(Date start, Date end);
-
-
 }

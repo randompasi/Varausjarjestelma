@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EventService {
     boolean isEnrollmentFull(Event event);
-  //  void enrollUser(User user, Long eventID);
+    void enrollUser(String username, Event event);
     Event save(Event event);
     void delete(Event event);
     List<Event> findByDatesBetween(Date start, Date end);
