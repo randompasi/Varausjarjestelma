@@ -1,0 +1,93 @@
+Urheilu varaus kalenteri
+Sisällysluettelo
+1.	Alkusuunnitelma	1
+2.	Kehitys	1
+3.	Ohjelma	2
+SecurityConfig	2
+Kontrolli luokat(CalendarController, MainController, RegistrationController)	2
+OlioLuokat(Event, User, Role)	2
+Repositori(Event-, Role-, ja UserRepository)	3
+Service(SecurityService ja Implementaatio, UserDeayilServiceImpl, Userservice, UserserviceImpl)	3
+Application	3
+Resources	3
+4.	Yhteenveto	4
+
+
+1.	Alkusuunnitelma
+Suunnitelma luoda ohjelma, jossa on mahdollista ilmoittautua liikuntatunneille. Tämän lisäksi ohjelmaan olisi suunnitelmana lisätä kirjautuminen, rekisteröinti käyttäjäksi ja käyttäjät admin ja user. User pystyy ilmoittautumaan kurssille ja poistamaan itsensä, jokaisessa kurssissa on raja, kuinka paljon voi ilmoittautua. Admin pystyy lisäämään kursseja, päivittämään niitä ja poistamaan.
+	Suunnitelmassa käytetään monia erinlaisia välineitä saadakseen tehtyä ohjelma. Back endissä käytetään Java koodi kielenä. Kehitysympäristönä käytän IntelJ IDE välinettä. Seon mainio väline java kehitys ympäristöksi. Front endissä käytän thymeleaf, html, css ja javascriptiä. Näiden lisäksi käytän mavenia hallitakseni kirjastoja ja ohjelman rakentamista. Spring boottia javan frameworkiksi helpottaakseni ohjelman luomista webbi ympäristössä. Githupia hallitsemaan versiota ja tallentamaan koodia. Tietokantana käytetään JPA konseptia ja derby sql tietokantaa, johtuen sen valmiista integroinnista springiin. Lisäksi, joitakin kirjastoja joita tulen käyttämään mutta niiden kartoitus pystyn tarkemmin sanomaan kehityksen loppupuolella.
+
+2.	Kehitys
+Aloitin ohjelman suunnittelun aluksi luomalla kirjautumisjärjestelmän, jotta tämä olisi onnistunut piti minun luoda JPA repository sen alle jotta, pystyisin tekemään tunnistautumisen henkilön tunnuksia kohtaan. Tässä vaiheessa derby vaihtui h2, koska se oli helpompi käyttää ja sain siihen paremmat ohjeet joita seurata. Suurin osa kirjautumisen tunnistautumisesta tapahtuu springin frameworkin sisällä. 
+	Suunnittelun seuraavana vaiheena oli rekisteröinti. Tämä sinänsä ei ollut vaikeaa kirjautumiseen nähden. Kummatkin toimivat hyvin samalla menetelmällä kuitenkin muutamia muutoksia oli. Kirjautumisessa on Käyttäjän nimi, salasanan ja salasanan varmistus. Valitettavasti en ole saanut vielä tehtyä salasanan valmistusta loppuun. Se ei ilmoita jos salasanat eivät täsmää, kuitenkin käyttäjä nimessä on kolmen merkin minimi vaatimus ja kummatkin kentät valittavat jos ovat tyhjiä. Suunnittelin rekisteröintiin automaattisen kirjautumis-järjestelmän, joka ohjaa rekisteröinnin jälkeen varauksen teko sivulle.
+	Lopuksi loin sivuston varauksien tekoon ja luontiin. Tässä tulin käyttäneeksi FullCalender valmista javascript kirjastoa jonka avulla pystyn luomaan paljon helpommin varaus järjestelmän ja keskittymään paljon enemmän olennaiseen ohjelmassa. Luomaan tapahtumia. joita voi lisätä  muuttaa ja poistaa. Valitettavasti en ehtinyt luoda vielä Ilmoittautumista tapahtumaan
+3.	Ohjelma
+SecurityConfig
+Tieturva luokka. Määritellään mitä käyttäjät voivat käyttää ilman kirjautumista ja miten tehdään kirjautumisen tunnistautuminen. Suurin osa hoidetaan automaattisesti Springin frameworkissa. Määrittelemme tieto turvallisuuden Annotaatioilla kuten @EnableWebSecurity, joka määritelee tunnistamisen kutsuihin. @Configuration Määrittelee konfiguroii luokan tiedostoihinsa alustuksessa, jotta se voi löytää sen automaattisesti. Ohjelmoijan ei tarvitse tehdä tätä.
+	Ilman kirjautumista henkilöllä on oikeus päästä käsiksi rekisteröinti sivulle ja kirjautumissivulle. Näiden lisäksi henkilö pääsee käsiksi css ja javascript tiedostoihin ja webjars kirjastoon. Johtuen siitä, että front end koodi käyttää näissä tarvittavia tietoja näkymien luomiseen.
+	Lopussa määritellään kirjautumisessa tehty tunnistautuminen.
+@Autowired
+public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+}
+Metodi on autowired, joka tekee että spring hoitaa metodin elinkaaren ja metodi itsessään tunnistaa käyttäjän user tietokantaa vasten tarkistamalla salasanan joka on enkoodattu tietokannassa.
+Kontrolli luokat(CalendarController, MainController, RegistrationController)
+Luokat ottavat vastaan front endissä tehdyt kyselyt ja tiedon pyynnöt. Esim post ja get kutsut. Luokissa määritellään mitä näillä kutsuilla tehdään, palautetaanko tietoja sivustolle vaiko siirrytäänkö toiselle sivulle. Kutsut on määritelty springin tekemillä annotaatioilla helpottaakseen järjestelmää esim. @Getmapping, joka kutsutaan usein sivustolle mentäessä ja annamme sivustolle sen tarvitsemat tiedot mahdollisesti alustukseen.
+OlioLuokat(Event, User, Role)
+Oliot, joiden perusteella luodaan tietokannan oliot ja joihin tallennetaan tiedot käyttäjistä ja liikunta tapahtumista. Määrittelyt tietokanta olioiksi on tehty annotaatioilla. @Entity määrittelee, että luokka on tietokanta olio. @id millä muuttujalla ohjelmat määritellään, näihin on määritelty automaattinen numeron generointi, ja @Notnull, että muuttuja ei saa olla tyhjä.
+@Entity
+@Table(name = "user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Size(min=3, max=32)
+    private String username;
+
+    @NotNull
+    @Size(min=2)
+    private String password;
+
+
+Repositori(Event-, Role-, ja UserRepository)
+Määrittelevät tietokantojen kutsut ja mitä tietokanta tyyppiä käytetään.
+public interface EventRepository extends JpaRepository<Event, Long> {
+        List<Event> findAll();
+    Event save(Event event);
+    void delete(Event event);
+
+    @Query("select b from Event b " +
+            "where b.start between ?1 and ?2 and b.end between ?1 and ?2")
+    List<Event> findByDatesBetween(Date start, Date end);
+}
+Esimerkiksi koodissa eventillä määritellään tallennus kutsu, poisto kutsu, löydä kaikki ja kysely, joka hakee tapahtumat tietyltä aika väliltä.
+Service(SecurityService ja Implementaatio, UserDeayilServiceImpl, Userservice, UserserviceImpl) 
+Palveluiden näkymät, jossa on niiden toteutukset ja näkymät on toteutettu.
+Application
+Luokka joka käynnistää springin ja määrittelee miltä tasolta ohjelma etsii tiedostoja.
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+
+Resources
+Kansio, jonka alla kaikki tarvittavat resurssit ohjelmalle, kuten css, javascript ja html.
+
+
+4.	Yhteenveto
+Valitettavasti en ehtinyt tehdä kaikkea mitä alun perin olin suunnitellut, koska aloitin liian myöhään kehityksen ohjelman tekemisen, kun kuvittelin omista taidoistani liikaa. Ongelmaksi muodostui java skripti fullcalenderissa ja tapahtumien komentojen luonnissa ne olivat paljon vaikeampia työstää kuin kuvittelin.
+	Tällä hetkellä ohjelmassa on vain kirjautuminen, rekisteröinti ja kalenteri johon voi luoda liikunta tapahtumia. Muita ominaisuuksia en ehtinyt tekemään. Jatko suunnitelmaksi tulevaisuuteen on kehitellä loppuun kurssin ilmoittauminen, salasanan varmistus, pakettirakenteen parantelu ja päivitykset poistojen ja lisäysten kohdalla, koska niissä muutosta ei näy front endissä ilman sivuston päivittämistä. Arviot kuinka kauan näiden kaikkien ominaisuuksien tekemisessä arviolta veisi 32h eli kolme työpäivää, kuitenkin ratkaisevana tekijänä on javascripti kuinka hyvin ymmärrän itse sitä tai pystynkö saamaan apua osaavammalta henkilöltä, että voin nopeuttaa kehitystä. 
+
+
+Linkki Githubiin: https://github.com/randompasi/Varausjarjestelma.git
+Tekijä: Antti Vuorinen
+
+
+
+
