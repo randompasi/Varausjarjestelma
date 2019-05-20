@@ -1,4 +1,4 @@
-Running program you need:
+Running this program you need:
 Maven,
 Java 1.8,
 Internet connection and give Maven access to repositories.
