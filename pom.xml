@@ -22,7 +22,7 @@
 
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.projectKey>randompasi_Shakki</sonar.projectKey>
+        <sonar.projectKey>randompasi_Varausjarjestelma</sonar.projectKey>
         <sonar.organization>randompasi</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
