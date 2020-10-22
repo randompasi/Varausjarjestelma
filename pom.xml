@@ -13,10 +13,6 @@
         <groupId>org.springframework.boot</groupId>
 
         <artifactId>spring-boot-starter-parent</artifactId>
-        <sonar.projectKey>randompasi_Shakki</sonar.projectKey>
-        <sonar.organization>randompasi</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
         <version>2.3.4.RELEASE</version>
 
     </parent>
@@ -27,6 +23,9 @@
         <java.version>1.8</java.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>randompasi_Shakki</sonar.projectKey>
+        <sonar.organization>randompasi</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
     </properties>
 
